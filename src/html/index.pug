@@ -1,0 +1,26 @@
+-
+  var meta_title = 'glsl-dissolve';
+  var meta_keywords = 'WebGL, three.js';
+  var meta_description = 'it\'s dissolve effects for the 2D cross fade by glsl.';
+  var meta_path = '/';
+  var meta_ogp_img = 'share.jpg';
+
+doctype html
+html(lang="ja")
+  head
+    include ./modules/_head.pug
+  body
+    .p-contents-summary
+      h1.p-contents-summary__head
+        |#{meta_title}
+      p.p-contents-summary__text
+        |#{meta_description}
+      p.p-contents-summary__link-source
+        a(href="https://github.com/ykob/"+repository_name)
+          |view source.
+    canvas(id="canvas-webgl", class="p-canvas-webgl")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r80/three.min.js")
+    script(src="https://code.jquery.com/jquery-3.0.0.slim.min.js")
+    script(src="./js/vendor/dat.gui.min.js")
+    script(src="./js/vendor/stats.min.js")
+    script(src="./js/main.js")
