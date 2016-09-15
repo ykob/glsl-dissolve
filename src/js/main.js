@@ -46,7 +46,7 @@ const initStats = () => {
   document.body.appendChild(stats.dom);
 }
 const render = () => {
-  // sphere.render(clock.getDelta());
+  dissolve.render(clock.getDelta());
   renderer.render(scene, camera);
 }
 const renderLoop = () => {
@@ -58,9 +58,7 @@ const renderLoop = () => {
 
 const init = () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0xeeeeee, 1.0);
-  camera.position.set(1000, 1000, 1000);
-  camera.lookAt(new THREE.Vector3());
+  renderer.setClearColor(0xffffff, 1.0);
 
   dissolve.loadTexture(images, () => {
     scene.add(dissolve.mesh);
