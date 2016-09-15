@@ -2,10 +2,12 @@ const glslify = require('glslify');
 
 export default class Dissolve {
   constructor() {
-    this.time = 1;
     this.uniforms = {};
     this.textures = [];
-    this.current_num = 0;
+    this.time = 1;
+    this.interval = 4;
+    this.prev_num = 0;
+    this.next_num = 1;
     this.mesh = null;
   }
   loadTexture(images, callback) {
@@ -30,6 +32,10 @@ export default class Dissolve {
       time: {
         type: 'f',
         value: 0,
+      },
+      interval: {
+        type: 'f',
+        value: this.interval,
       },
       resolution: {
         type: 'v2',
@@ -60,6 +66,15 @@ export default class Dissolve {
   }
   render(time) {
     this.uniforms.time.value += time * this.time;
+    if (this.uniforms.time.value > this.interval) {
+      this.uniforms.time.value = 0;
+      this.prev_num = this.next_num;
+      this.uniforms.texPrev.value = this.textures[this.next_num];
+      while (this.next_num == this.prev_num) {
+        this.next_num = Math.floor(Math.random() * this.textures.length);
+      }
+      this.uniforms.texNext.value = this.textures[this.next_num];
+    }
   }
   resize() {
     this.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);

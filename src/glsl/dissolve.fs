@@ -1,4 +1,5 @@
 uniform float time;
+uniform float interval;
 uniform vec2 resolution;
 uniform vec2 imageResolution;
 uniform sampler2D texPrev;
@@ -8,7 +9,7 @@ varying vec3 vPosition;
 varying vec2 vUv;
 
 #pragma glslify: cnoise3 = require(glsl-noise/classic/3d);
-#pragma glslify: ease = require(glsl-easings/quadratic-in-out);
+#pragma glslify: ease = require(glsl-easings/quartic-in-out);
 
 void main(void) {
   vec2 ratio = vec2(
@@ -22,8 +23,8 @@ void main(void) {
   vec3 colorPrev = texture2D(texPrev, uv).rgb;
   vec3 colorNext = texture2D(texNext, uv).rgb;
 
-  float noise = cnoise3(vec3(uv.x * 7.0, uv.y * 5.0, 0.0));
-  float step = ease(min((time / 3.0), 1.0)) * 2.0 - 1.0;
+  float noise = cnoise3(vec3(uv.x * 8.0, uv.y * 6.0, 0.0));
+  float step = ease(min((time / interval), 1.0)) * 2.0 - 1.0;
 
   gl_FragColor = vec4(
       colorPrev * smoothstep(step - 0.01, step - 0.005, noise)
