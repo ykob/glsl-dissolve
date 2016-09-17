@@ -35,10 +35,22 @@ const setEvent = () => {
 const initDatGui = () => {
   const gui = new dat.GUI();
   const controller = {
-    time: gui.add(dissolve, 'interval', 1, 10).name('interval').step(1)
+    time: gui.add(dissolve, 'interval', 1, 10).name('interval').step(1),
+    noiseX: gui.add(dissolve.noise, 'x', -100, 100).name('noiseX'),
+    noiseY: gui.add(dissolve.noise, 'y', -100, 100).name('noiseY'),
+    noiseZ: gui.add(dissolve.noise, 'z', -100, 100).name('noiseZ'),
   }
   controller.time.onChange((value) => {
     dissolve.uniforms.interval.value = value;
+  });
+  controller.noiseX.onChange((value) => {
+    dissolve.uniforms.noiseX.value = value;
+  });
+  controller.noiseY.onChange((value) => {
+    dissolve.uniforms.noiseY.value = value;
+  });
+  controller.noiseZ.onChange((value) => {
+    dissolve.uniforms.noiseZ.value = value;
   });
 }
 const initStats = () => {
