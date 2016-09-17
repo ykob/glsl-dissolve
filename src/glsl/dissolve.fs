@@ -1,5 +1,4 @@
 uniform float time;
-uniform float interval;
 uniform vec2 resolution;
 uniform vec2 imageResolution;
 uniform sampler2D texPrev;
@@ -24,7 +23,7 @@ void main(void) {
   vec3 colorNext = texture2D(texNext, uv).rgb;
 
   float noise = (cnoise3(vec3(uv.x * 8.0, uv.y * 6.0, 0.0)) + 1.0) / 2.0;
-  float step = ease(min((time / interval), 1.0));
+  float step = ease(min((time), 1.0));
 
   gl_FragColor = vec4(
       colorPrev * smoothstep(step - 0.01, step - 0.005, noise)

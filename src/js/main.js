@@ -35,11 +35,11 @@ const setEvent = () => {
 const initDatGui = () => {
   const gui = new dat.GUI();
   const controller = {
-    // radius: gui.add(sphere, 'radius', 0, 1000).name('Sphere Radius')
+    time: gui.add(dissolve, 'interval', 1, 10).name('interval').step(1)
   }
-  // controller.radius.onChange((value) => {
-  //   sphere.mesh.material.uniforms.radius.value = value;
-  // });
+  controller.time.onChange((value) => {
+    dissolve.uniforms.interval.value = value;
+  });
 }
 const initStats = () => {
   stats.showPanel(0);

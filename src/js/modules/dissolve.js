@@ -4,7 +4,6 @@ export default class Dissolve {
   constructor() {
     this.uniforms = {};
     this.textures = [];
-    this.time = 1;
     this.interval = 4;
     this.prev_num = 0;
     this.next_num = 1;
@@ -65,8 +64,8 @@ export default class Dissolve {
     );
   }
   render(time) {
-    this.uniforms.time.value += time * this.time;
-    if (this.uniforms.time.value > this.interval) {
+    this.uniforms.time.value += time / this.interval;
+    if (this.uniforms.time.value > 1) {
       this.uniforms.time.value = 0;
       this.prev_num = this.next_num;
       this.uniforms.texPrev.value = this.textures[this.next_num];
