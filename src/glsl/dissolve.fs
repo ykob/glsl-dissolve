@@ -6,6 +6,10 @@ uniform sampler2D texNext;
 uniform float noiseX;
 uniform float noiseY;
 uniform float noiseZ;
+uniform float prevEdgeStart;
+uniform float prevEdgeWidth;
+uniform float nextEdgeStart;
+uniform float nextEdgeWidth;
 
 varying vec3 vPosition;
 varying vec2 vUv;
@@ -18,6 +22,7 @@ void main(void) {
       min((resolution.x / resolution.y) / (imageResolution.x / imageResolution.y), 1.0),
       min((resolution.y / resolution.x) / (imageResolution.y / imageResolution.x), 1.0)
     );
+
   vec2 uv = vec2(
       vUv.x * ratio.x + (1.0 - ratio.x) * 0.5,
       vUv.y * ratio.y + (1.0 - ratio.y) * 0.5
@@ -25,12 +30,14 @@ void main(void) {
   vec3 colorPrev = texture2D(texPrev, uv).rgb;
   vec3 colorNext = texture2D(texNext, uv).rgb;
 
-  float noise = (cnoise3(vec3(uv.x * noiseX, uv.y * noiseY, noiseZ)) + 1.0) / 2.0;
+  float noise = (cnoise3(vec3(uv.x * noiseX, uv.y * noiseY, noiseZ)) + 1.0) / 2.0
+    * (1.0 - (prevEdgeStart + prevEdgeWidth + nextEdgeStart + nextEdgeWidth))
+    + (prevEdgeStart + prevEdgeWidth + nextEdgeStart + nextEdgeWidth) * 0.5;
   float step = ease(min((time), 1.0));
 
   gl_FragColor = vec4(
-      colorPrev * smoothstep(step - 0.01, step - 0.005, noise)
-      + colorNext * (1.0 - smoothstep(step + 0.005, step + 0.01, noise)),
+      colorPrev * smoothstep(step - (prevEdgeStart + prevEdgeWidth), step - prevEdgeStart, noise)
+      + colorNext * (1.0 - smoothstep(step + nextEdgeStart, step +(nextEdgeStart + nextEdgeWidth), noise)),
       1.0
     );
 }
