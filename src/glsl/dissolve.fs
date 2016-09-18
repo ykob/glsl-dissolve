@@ -27,17 +27,14 @@ void main(void) {
       vUv.x * ratio.x + (1.0 - ratio.x) * 0.5,
       vUv.y * ratio.y + (1.0 - ratio.y) * 0.5
     );
-  vec3 colorPrev = texture2D(texPrev, uv).rgb;
-  vec3 colorNext = texture2D(texNext, uv).rgb;
+  vec4 colorPrev = texture2D(texPrev, uv);
+  vec4 colorNext = texture2D(texNext, uv);
 
   float noise = (cnoise3(vec3(uv.x * noiseX, uv.y * noiseY, noiseZ)) + 1.0) / 2.0
     * (1.0 - (prevEdgeStart + prevEdgeWidth + nextEdgeStart + nextEdgeWidth))
     + (prevEdgeStart + prevEdgeWidth + nextEdgeStart + nextEdgeWidth) * 0.5;
   float step = ease(min((time), 1.0));
 
-  gl_FragColor = vec4(
-      colorPrev * smoothstep(step - (prevEdgeStart + prevEdgeWidth), step - prevEdgeStart, noise)
-      + colorNext * (1.0 - smoothstep(step + nextEdgeStart, step +(nextEdgeStart + nextEdgeWidth), noise)),
-      1.0
-    );
+  gl_FragColor = colorPrev * smoothstep(step - (prevEdgeStart + prevEdgeWidth), step - prevEdgeStart, noise)
+    + colorNext * smoothstep((1.0 - step) - (nextEdgeStart + nextEdgeWidth), (1.0 - step) - nextEdgeStart, (1.0 - noise));
 }

@@ -4,16 +4,17 @@ export default class Dissolve {
   constructor() {
     this.uniforms = {};
     this.textures = [];
-    this.interval = 4;
-    this.noise = { x: 8, y: 6, z: 0 };
+    this.interval = 3;
+    this.noise = { x: 8, y: 6, z: 4 };
     this.edge = {
-      prev_start: 0.005,
-      prev_width: 0.1,
-      next_start: 0.005,
-      next_width: 0.1,
+      prev_start: 0.01,
+      prev_width: 0.05,
+      next_start: 0.01,
+      next_width: 0.05,
     };
     this.prev_num = 0;
     this.next_num = 1;
+    this.stop = false;
     this.mesh = null;
   }
   loadTexture(images, callback) {
@@ -98,6 +99,7 @@ export default class Dissolve {
     );
   }
   render(time) {
+    if (this.stop) return;
     this.uniforms.time.value += time / this.interval;
     if (this.uniforms.time.value > 1) {
       this.uniforms.time.value = 0;
