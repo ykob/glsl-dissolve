@@ -91,12 +91,17 @@ const init = () => {
   renderer.setClearColor(0xffffff, 0.0);
 
   dissolve.loadTexture(images, () => {
-    scene.add(dissolve.mesh);
-    setEvent();
-    initDatGui();
-    initStats();
-    resizeWindow();
-    renderLoop();
+    setTimeout(() => {
+      $('.p-preloader').addClass('is-hidden').on('transitionend', function() {
+        $(this).addClass('is-stoped');
+      });
+      scene.add(dissolve.mesh);
+      setEvent();
+      initDatGui();
+      initStats();
+      resizeWindow();
+      renderLoop();
+    }, 200);
   });
 }
 init();

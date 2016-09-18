@@ -13,7 +13,7 @@ export default class Dissolve {
       next_width: 0.05,
     };
     this.prev_num = 0;
-    this.next_num = 1;
+    this.next_num = 0;
     this.stop = false;
     this.mesh = null;
   }
@@ -35,6 +35,8 @@ export default class Dissolve {
     }
   }
   createMesh() {
+    const tex_intro = new THREE.DataTexture(new Uint8Array([255, 255, 255, 0]), 1, 1, THREE.RGBAFormat, THREE.UnsignedByteType);
+    tex_intro.needsUpdate = true;
     this.uniforms = {
       time: {
         type: 'f',
@@ -54,11 +56,11 @@ export default class Dissolve {
       },
       texPrev: {
         type: 't',
-        value: this.textures[0],
+        value: tex_intro,
       },
       texNext: {
         type: 't',
-        value: this.textures[1],
+        value: this.textures[0],
       },
       noiseX: {
         type: 'f',
@@ -95,6 +97,7 @@ export default class Dissolve {
         uniforms: this.uniforms,
         vertexShader: glslify('../../glsl/dissolve.vs'),
         fragmentShader: glslify('../../glsl/dissolve.fs'),
+        transparent: true,
       })
     );
   }
