@@ -1,3 +1,6 @@
+attribute vec3 position;
+attribute vec2 uv;
+
 varying vec3 vPosition;
 varying vec2 vUv;
 
